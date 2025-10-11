@@ -121,3 +121,59 @@ model User{
 ```js
   client.user.findOne()
 ```
+- Till now we have only made the application not deployment.
+
+## 5. Create the Backend services:
+- In the `http-server/` we will be creating the backend services.
+```js
+  npm init -y // Create the package.json
+  npx tsc --init // Create the tsconfig.json
+```
+
+- In the `tsconfig.json` we will be writing a list of objects.
+```js
+{
+  "extends":"@repo/typescript-config/base.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./dist"
+  }
+}
+```
+
+- The source code will be present in the `/src` folder.
+- The output of the code will be present in the `/dist` folder.
+- Add the devDependencies in the `package.json` file in the http-server. 
+```js
+  "devDependencies": {
+    "@repo/db": "workspace:*",
+    "@repo/typescript-config": "workspace:*"
+  },
+```
+- Add the build scripts in the `package.json` file.
+```js
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "npm run build && npm run start",
+    "start": "node dist/index.js"
+  },
+```
+- Do the same thing in the ws-server.
+- Now write the source code.
+- Add `express` as a dependency in the http-server.
+```cmd
+  npm install express @types/express
+```
+
+## 6. Execute the application
+- To execute the application with the following ports:
+- **NextJS Application** 
+  - It will be executed using the following command
+  - `npm run dev`
+  - The port number can be changed from the `package.json` file.
+- **http-server**
+  - It will also be executed using the same command as listed above.
+  - It will run on the port number mentioned in the index.ts file.
+- **ws-server**
+  - It will also be executed using the same command as listed above.
+  - It will run on the port number mentioned in the index.ts file.

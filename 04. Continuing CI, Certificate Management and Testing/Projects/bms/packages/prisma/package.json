@@ -7,6 +7,10 @@
   },
   "keywords": [],
   "author": "",
+  "scripts": {
+    "generate": "prisma generate --schema=./prisma/schema.prisma",
+    "build": "tsc -b"
+  },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*"
   },
