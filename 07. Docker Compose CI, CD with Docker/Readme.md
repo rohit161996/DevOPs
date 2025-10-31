@@ -252,4 +252,48 @@
   - The port number of the services.
 
 - We do not migrate the database in the docker file, we do it in the package.json using a simple command.
-- 
+
+```Dockerfile
+    FROM node:20-alpine
+
+    WORKDIR /app
+
+    COPY ./package.json ./package.json
+    COPY ./package-lock.json ./package-lock.json
+
+    RUN npm install
+
+    COPY . .
+
+    RUN npx prisma generate
+    RUN npm run build
+
+    EXPOSE 3000
+
+    CMD ["npm run dev:docker"]
+```
+
+```Dockerfile
+    version: '3.8'
+    services:
+    postgres:
+        image: postgres
+        ports:
+        - 5432:5432
+        environment:
+        - POSTGRES_PASSWORD=mysecretpassword
+    
+    user_app:
+        build:
+        network: host
+        context: ./ 
+        dockerfile: Dockerfile
+        
+        environment:
+        - DATABASE_URL=postgresql://postgres:mysecretpassword@postgres:5432/postgres
+    
+        ports:
+        - 3000:3000
+        depends_on:
+        - postgres
+```
